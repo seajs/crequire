@@ -1,9 +1,9 @@
 {
   "name": "searequire",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get require() like node-detective by lexical analysis",
   "homepage": "http://seajs.org/",
-  "keywords": ["module", "loader"],
+  "keywords": ["require"],
   "author": "army8735 <army8735@qq.com>",
   "engines": {
     "node": ">= 0.6.0"
