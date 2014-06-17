@@ -1,5 +1,7 @@
 Get require() like node-requires by lexical analysis
 
+[![NPM version](https://badge.fury.io/js/searequire.png)](https://npmjs.org/package/searequire)
+
 ===
 
 
