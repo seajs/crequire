@@ -4,11 +4,12 @@
  * ref: https://github.com/seajs/searequire
  */
 
-function parseDependencies(s) {
+function parseDependencies(s, replace) {
   if(s.indexOf('require') == -1) {
     return []
   }
   var index = 0, peek, length = s.length, isReg = 1, modName = 0, parentheseState = 0, parentheseStack = [], res = []
+  var last = 0
   while(index < length) {
     readch()
     if(isBlank()) {
@@ -57,7 +58,7 @@ function parseDependencies(s) {
       modName = 0
     }
   }
-  return res
+  return replace ? s : res
   function readch() {
     peek = s.charAt(index++)
   }
@@ -87,10 +88,19 @@ function parseDependencies(s) {
     }
     if(modName) {
       var d = {
+        'string': s.slice(last, s.indexOf(')', index) + 1),
         'path': s.slice(start, index - 1),
-        'index': start
+        'index': last
       }
       res.push(d)
+      if(replace) {
+        var rep = replace(d)
+        if(rep.length != d.string.length) {
+          s = s.slice(0, last) + rep + s.slice(last + d.string.length)
+          index = last + rep.length
+          length = s.length
+        }
+      }
       modName = 0
     }
   }
@@ -147,6 +157,7 @@ function parseDependencies(s) {
     }[r]
     modName = /^require\s*\(\s*['"]/.test(s2)
     if(modName) {
+      last = index - 1
       r = /^require\s*\(\s*['"]/.exec(s2)[0]
       index += r.length - 2
     }

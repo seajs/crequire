@@ -1,4 +1,4 @@
-Get require() like node-detective by lexical analysis
+Get require() like node-requires by lexical analysis
 
 ===
 
@@ -22,7 +22,8 @@ do /require('f')/.test(s); while(false);
 parser output:
 ```js
 {
-  'path': 'a',
-  'index': 0
+  "string": "require('a')",
+  "path": "a",
+  "index": 0
 }
 ```

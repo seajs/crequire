@@ -5,6 +5,11 @@ var expect = require('expect.js');
 describe('get the right deps', function() {
   var s = 'require("a");require(\'b"\');require("c\\"")';
   var res = searequire(s);
+  it('string', function() {
+    expect(res.map(function(o) {
+      return o.string
+    })).to.eql(['require("a")', 'require(\'b"\')', 'require("c\\"")']);
+  });
   it('path', function() {
     expect(res.map(function(o) {
       return o.path
@@ -13,7 +18,14 @@ describe('get the right deps', function() {
   it('index', function() {
     expect(res.map(function(o) {
       return o.index
-    })).to.eql([9, 22, 36]);
+    })).to.eql([0, 13, 27]);
+  });
+  it('use replace', function() {
+    var s = 'require("a");require("b");';
+    var res = searequire(s, function(require) {
+      return 'require("woot/' + require.path + '")'
+    });
+    expect(res).to.eql('require("woot/a");require("woot/b");');
   });
 });
 describe('ignores', function() {
