@@ -59,4 +59,9 @@ describe('ignores', function() {
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });
+  it('ignore variable', function() {
+    var s = 'require("a" + b)';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
 });

@@ -155,7 +155,7 @@ function parseDependencies(s, replace) {
       'typeof': 1,
       'void': 1
     }[r]
-    modName = /^require\s*\(\s*['"]/.test(s2)
+    modName = /^require\s*\(\s*(['"]).+?\1\s*\)/.test(s2)
     if(modName) {
       last = index - 1
       r = /^require\s*\(\s*['"]/.exec(s2)[0]
