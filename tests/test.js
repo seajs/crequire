@@ -64,4 +64,9 @@ describe('ignores', function() {
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });
+  it.only('unend string', function() {
+    var s = 'require("a';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
 });

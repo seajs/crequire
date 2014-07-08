@@ -72,7 +72,10 @@ function parseDependencies(s, replace) {
     var start = index
     var c = peek
     var end = s.indexOf(c, start)
-    if(s.charAt(end - 1) != '\\') {
+    if(end == -1) {
+      index = length
+    }
+    else if(s.charAt(end - 1) != '\\') {
       index = end + 1
     }
     else {
