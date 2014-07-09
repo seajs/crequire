@@ -27,6 +27,20 @@ describe('get the right deps', function() {
     });
     expect(res).to.eql('require("woot/a");require("woot/b");');
   });
+  it('reg & comment', function() {
+    var s = '()/*\n*/ / require("a")';
+    var res = searequire(s, true).map(function(o) {
+      return o.path
+    });
+    expect(res).to.eql(["a"]);
+  });
+  it('include async', function() {
+    var s = 'require.async("a")';
+    var res = searequire(s, function(o) {
+      return 'require.async(1)'
+    }, true);
+    expect(res).to.eql('require.async(1)');
+  });
 });
 describe('ignores', function() {
   it('in quote', function() {
@@ -64,11 +78,6 @@ describe('ignores', function() {
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });
-  it('reg & comment', function() {
-    var s = '()/*\n*/ / require("a")';
-    var res = searequire(s);
-    expect(res.length).to.eql(1);
-  });
   it('ignore variable', function() {
     var s = 'require("a" + b)';
     var res = searequire(s);
@@ -86,6 +95,11 @@ describe('ignores', function() {
   });
   it('unend reg', function() {
     var s = '/abc';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
+  it('ignore async', function() {
+    var s = 'require.async("a")';
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });

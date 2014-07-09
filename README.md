@@ -10,6 +10,10 @@ Get require() like node-requires by lexical analysis
 npm install searequire
 ```
 
+### Api
+* parseDependencies(code:String, callback:Function = null, includeAsync:Boolean = false):String
+* parseDependencies(code:String, includeAsync:Boolean = false):String
+
 ### Example
 js:
 ```js

@@ -4,7 +4,11 @@
  * ref: https://github.com/seajs/searequire
  */
 
-function parseDependencies(s, replace) {
+function parseDependencies(s, replace, includeAsync) {
+  if(replace === true) {
+    includeAsync = true;
+    replace = null;
+  }
   if(s.indexOf('require') == -1) {
     return replace ? s : [];
   }
@@ -162,10 +166,10 @@ function parseDependencies(s, replace) {
       'typeof': 1,
       'void': 1
     }[r]
-    modName = /^require\s*\(\s*(['"]).+?\1\s*\)/.test(s2)
+    modName = includeAsync ? /^require\s*[.\w]*\(\s*(['"]).+?\1\s*\)/.test(s2) : /^require\s*\(\s*(['"]).+?\1\s*\)/.test(s2)
     if(modName) {
       last = index - 1
-      r = /^require\s*\(\s*['"]/.exec(s2)[0]
+      r = includeAsync ?/^require\s*[.\w]*\(\s*['"]/.exec(s2)[0] : /^require\s*\(\s*['"]/.exec(s2)[0]
       index += r.length - 2
     }
     else {
