@@ -11,8 +11,9 @@ npm install searequire
 ```
 
 ### Api
-* parseDependencies(code:String, callback:Function = null, includeAsync:Boolean = false):String
-* parseDependencies(code:String, includeAsync:Boolean = false):String
+* parseDependencies(code:String, callback:Function = null, flag:Boolean = false):String
+* parseDependencies(code:String, flag:Boolean = false):String
+  * flag means if use "require.async" like, the result should have a property "flag" of ".async"
 
 ### Example
 js:
@@ -24,12 +25,12 @@ require('a');
 if(true)/require('e')/;
 do /require('f')/.test(s); while(false);
 ```
-
 parser output:
 ```js
 {
   "string": "require('a')",
   "path": "a",
-  "index": 0
+  "index": 0,
+  "flag": null
 }
 ```

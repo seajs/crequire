@@ -13,7 +13,8 @@ function parseDependencies(s, replace, includeAsync) {
     return replace ? s : [];
   }
   var index = 0, peek, length = s.length, isReg = 1, modName = 0, parentheseState = 0, parentheseStack = [], res = []
-  var last = 0
+  var last
+  var flag
   while(index < length) {
     readch()
     if(isBlank()) {
@@ -101,7 +102,8 @@ function parseDependencies(s, replace, includeAsync) {
       var d = {
         'string': s.slice(last, s.indexOf(')', index) + 1),
         'path': s.slice(start, index - 1),
-        'index': last
+        'index': last,
+        'flag': flag
       }
       res.push(d)
       if(replace) {
@@ -171,6 +173,7 @@ function parseDependencies(s, replace, includeAsync) {
       last = index - 1
       r = includeAsync ?/^require\s*[.\w]*\(\s*['"]/.exec(s2)[0] : /^require\s*\(\s*['"]/.exec(s2)[0]
       index += r.length - 2
+      flag = /^require\s*([.\w]+)/.test(s2) ? /^require\s*([.\w]+)/.exec(s2)[1] : null
     }
     else {
       index += /^[\w$.\s]+/.exec(s2)[0].length - 1

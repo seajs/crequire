@@ -41,6 +41,20 @@ describe('get the right deps', function() {
     }, true);
     expect(res).to.eql('require.async(1)');
   });
+  it('async flag', function() {
+    var s = 'require.async("a")';
+    var res = searequire(s, function(o) {
+      return o.flag
+    }, true);
+    expect(res).to.eql('.async');
+  });
+  it('custom flag', function() {
+    var s = 'require.custom("a")';
+    var res = searequire(s, function(o) {
+      return o.flag
+    }, true);
+    expect(res).to.eql('.custom');
+  });
 });
 describe('ignores', function() {
   it('in quote', function() {
