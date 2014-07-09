@@ -59,6 +59,16 @@ describe('ignores', function() {
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });
+  it('reg / reg', function() {
+    var s = '/require("a")/ / /require("b")';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
+  it('reg & comment', function() {
+    var s = '()/*\n*/ / require("a")';
+    var res = searequire(s);
+    expect(res.length).to.eql(1);
+  });
   it('ignore variable', function() {
     var s = 'require("a" + b)';
     var res = searequire(s);
@@ -66,6 +76,16 @@ describe('ignores', function() {
   });
   it('unend string', function() {
     var s = 'require("a';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
+  it('unend comment', function() {
+    var s = '/*';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
+  it('unend reg', function() {
+    var s = '/abc';
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });

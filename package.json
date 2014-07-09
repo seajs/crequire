@@ -1,6 +1,6 @@
 {
   "name": "searequire",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "description": "Get require() like node-detective by lexical analysis",
   "homepage": "http://seajs.org/",
   "keywords": ["require"],
