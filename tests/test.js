@@ -117,4 +117,9 @@ describe('ignores', function() {
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });
+  it('return', function() {
+    var s = "return require('highlight.js').highlightAuto(code).value;";
+    var res = searequire(s);
+    expect(res.length).to.eql(1);
+  })
 });
