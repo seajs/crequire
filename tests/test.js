@@ -55,6 +55,16 @@ describe('get the right deps', function() {
     }, true);
     expect(res).to.eql('.custom');
   });
+  it('return', function() {
+    var s = "return require('highlight.js').highlightAuto(code).value;";
+    var res = searequire(s);
+    expect(res.length).to.eql(1);
+  });
+  it('callback', function() {
+    var s = 'require.async("slider", function(){\nalert("loaded");\n});';
+    var res = searequire(s, true);
+    expect(res.length).to.eql(1);
+  });
 });
 describe('ignores', function() {
   it('in quote', function() {
@@ -117,9 +127,4 @@ describe('ignores', function() {
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });
-  it('return', function() {
-    var s = "return require('highlight.js').highlightAuto(code).value;";
-    var res = searequire(s);
-    expect(res.length).to.eql(1);
-  })
 });
