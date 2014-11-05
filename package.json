@@ -1,5 +1,5 @@
 {
-  "name": "searequire",
+  "name": "crequire",
   "version": "1.5.3",
   "description": "Get require() like node-detective by lexical analysis",
   "homepage": "http://seajs.org/",
@@ -26,13 +26,13 @@
   "config": {
     "blanket": {
       "pattern": [
-        "searequire/index.js"
+        "crequire/index.js"
       ]
     }
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/seajs/searequire.git"
+    "url": "git://github.com/seajs/crequire.git"
   },
   "main": "./index.js",
   "spm": {
