@@ -28,7 +28,7 @@ describe('get the right deps', function() {
     expect(res).to.eql('require("woot/a");require("woot/b");');
   });
   it('reg & comment', function() {
-    var s = '()/*\n*/ / require("a")';
+    var s = '(1)/*\n*/ / require("a")';
     var res = searequire(s, true).map(function(o) {
       return o.path
     });

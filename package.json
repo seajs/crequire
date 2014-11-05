@@ -10,8 +10,11 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "benchmark": "^1.0.0",
     "blanket": "^1.1.6",
     "coveralls": "^2.10.0",
+    "detective": "^3.1.0",
+    "requires": "^1.0.1",
     "expect.js": "^0.3.1",
     "gulp": "^3.6.0",
     "gulp-clean": "^0.2.4",
