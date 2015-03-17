@@ -129,6 +129,13 @@ describe('ignores', function() {
   });
 });
 describe('callback', function() {
+  it('none', function() {
+    var s = 'test("a")';
+    var res = searequire(s, function() {
+      return '1';
+    });
+    expect(res).to.eql(s);
+  });
   it('one', function() {
     var s = 'require("a")';
     var res = searequire(s, function() {
