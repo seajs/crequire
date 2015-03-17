@@ -128,3 +128,26 @@ describe('ignores', function() {
     expect(res.length).to.eql(0);
   });
 });
+describe('callback', function() {
+  it('one', function() {
+    var s = 'require("a")';
+    var res = searequire(s, function() {
+      return '1';
+    });
+    expect(res).to.eql('1');
+  });
+  it('tow', function() {
+    var s = 'require("a");require("b");';
+    var res = searequire(s, function(item) {
+      return item.path;
+    });
+    expect(res).to.eql('a;b;');
+  });
+  it('same length as item', function() {
+    var s = 'require("a");require("b");';
+    var res = searequire(s, function(item) {
+      return '123456789012';
+    });
+    expect(res).to.eql('123456789012;123456789012;');
+  });
+});
