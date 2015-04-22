@@ -65,6 +65,21 @@ describe('get the right deps', function() {
     var res = searequire(s, true);
     expect(res.length).to.eql(1);
   });
+  it('block & reg 1', function() {
+    var s = '({}/require("a"))';
+    var res = searequire(s);
+    expect(res.length).to.eql(1);
+  });
+  it('block & reg 2', function() {
+    var s = 'return {}/require("a")';
+    var res = searequire(s);
+    expect(res.length).to.eql(1);
+  });
+  it('block & reg 3', function() {
+    var s = 'v={}/require("a")';
+    var res = searequire(s);
+    expect(res.length).to.eql(1);
+  });
 });
 describe('ignores', function() {
   it('in quote', function() {
@@ -124,6 +139,26 @@ describe('ignores', function() {
   });
   it('ignore async', function() {
     var s = 'require.async("a")';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
+  it('block & reg 1', function() {
+    var s = '{}/require("a")/';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
+  it('block & reg 2', function() {
+    var s = 'return\n{}/require("a")/';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
+  it('block & reg 3', function() {
+    var s = '()=>{}/require("a")/';
+    var res = searequire(s);
+    expect(res.length).to.eql(0);
+  });
+  it('block & reg 4', function() {
+    var s = '(1)\n{}/require("a")/';
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });
