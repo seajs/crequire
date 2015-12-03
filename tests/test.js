@@ -162,6 +162,34 @@ describe('ignores', function() {
     var res = searequire(s);
     expect(res.length).to.eql(0);
   });
+  it('require /**/', function() {
+    var s = 'require/**/("a")';
+    var res = searequire(s, true).map(function(o) {
+      return o.path
+    });
+    expect(res).to.eql(["a"]);
+  });
+  it('require. /**/', function() {
+    var s = 'require.async/**/("a")';
+    var res = searequire(s, true).map(function(o) {
+      return o.path
+    });
+    expect(res).to.eql(["a"]);
+  });
+  it('require /**/ .', function() {
+    var s = 'require/**/.async("a")';
+    var res = searequire(s, true).map(function(o) {
+      return o.path
+    });
+    expect(res).to.eql(["a"]);
+  });
+  it('require /**/ . /**/', function() {
+    var s = 'require/**/.async/**/("a")';
+    var res = searequire(s, true).map(function(o) {
+      return o.path
+    });
+    expect(res).to.eql(["a"]);
+  });
 });
 describe('callback', function() {
   it('none', function() {

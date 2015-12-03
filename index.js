@@ -225,12 +225,12 @@ function parseDependencies(s, replace, includeAsync) {
       'typeof': 1,
       'return': 1
     }.hasOwnProperty(r);
-    modName = includeAsync ? /^require\s*[.\w$]*\(\s*(['"]).+?\1\s*[),]/.test(s2) : /^require\s*\(\s*(['"]).+?\1\s*[),]/.test(s2)
+    modName = includeAsync ? /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?[.\w$]*\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*(['"]).+?\1\s*[),]/.test(s2) : /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*(['"]).+?\1\s*[),]/.test(s2)
     if(modName) {
       last = index - 1
-      r = includeAsync ?/^require\s*[.\w$]*\(\s*['"]/.exec(s2)[0] : /^require\s*\(\s*['"]/.exec(s2)[0]
+      r = includeAsync ?/^require\s*(?:\/\*[\s\S]*?\*\/\s*)?[.\w$]*\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*['"]/.exec(s2)[0] : /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*['"]/.exec(s2)[0]
       index += r.length - 2
-      flag = /^require\s*([.\w$]+)/.test(s2) ? /^require\s*([.\w$]+)/.exec(s2)[1] : null
+      flag = /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?([.\w$]+)/.test(s2) ? /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?([.\w$]+)/.exec(s2)[1] : null
     }
     else {
       index += /^[\w$]+(?:\s*\.\s*[\w$]+)*/.exec(s2)[0].length - 1
