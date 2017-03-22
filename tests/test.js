@@ -80,6 +80,19 @@ describe('get the right deps', function() {
     var res = searequire(s);
     expect(res.length).to.eql(1);
   });
+  it('import', function() {
+    var s = 'import "a";import b from "b";import {c} from "c";import * as d from "d"';
+    var res = searequire(s);
+    expect(res.map(function(o) {
+      return o.string
+    })).to.eql(['import "a"', 'import b from "b"', 'import {c} from "c"', 'import * as d from "d"']);
+    expect(res.map(function(o) {
+      return o.path
+    })).to.eql(['a', 'b', 'c', 'd']);
+    expect(res.map(function(o) {
+      return o.index
+    })).to.eql([0, 11, 29, 49]);
+  });
 });
 describe('ignores', function() {
   it('in quote', function() {

@@ -1,7 +1,7 @@
 {
   "name": "crequire",
-  "version": "1.7.0",
-  "description": "Get require() like node-detective by lexical analysis",
+  "version": "1.8.0",
+  "description": "Get require() & import like node-detective by lexical analysis",
   "homepage": "http://seajs.org/",
   "keywords": ["require"],
   "author": "army8735 <army8735@qq.com>",

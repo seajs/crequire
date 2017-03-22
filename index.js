@@ -9,7 +9,7 @@ function parseDependencies(s, replace, includeAsync) {
     includeAsync = true;
     replace = null;
   }
-  if(s.indexOf('require') == -1) {
+  if(s.indexOf('require') == -1 && s.indexOf('import') == -1) {
     return replace ? s : [];
   }
   var index = 0, peek, length = s.length, isReg = 1, modName = 0, res = []
@@ -17,6 +17,7 @@ function parseDependencies(s, replace, includeAsync) {
   var braceState, braceStack = [], isReturn
   var last
   var flag
+  var quote
   while(index < length) {
     readch()
     if(isBlank()) {
@@ -149,7 +150,9 @@ function parseDependencies(s, replace, includeAsync) {
     }
     if(modName) {
       var d = {
-        'string': s.slice(last, s.indexOf(')', index) + 1),
+        'string': modName == 2
+          ? s.slice(last, index)
+          : s.slice(last, s.indexOf(')', index) + 1),
         'path': s.slice(start, index - 1),
         'index': last,
         'flag': flag
@@ -224,13 +227,31 @@ function parseDependencies(s, replace, includeAsync) {
       'void': 1,
       'typeof': 1,
       'return': 1
-    }.hasOwnProperty(r);
-    modName = includeAsync ? /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?[.\w$]*\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*(['"]).+?\1\s*[),]/.test(s2) : /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*(['"]).+?\1\s*[),]/.test(s2)
+    }.hasOwnProperty(r)
+    if(r == 'require') {
+      modName = includeAsync
+        ? /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?[.\w$]*\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*(['"]).+?\1\s*[),]/.test(s2)
+        : /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*(['"]).+?\1\s*[),]/.test(s2)
+    }
+    else if(r == 'import') {
+        modName = 2
+    }
     if(modName) {
       last = index - 1
-      r = includeAsync ?/^require\s*(?:\/\*[\s\S]*?\*\/\s*)?[.\w$]*\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*['"]/.exec(s2)[0] : /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*['"]/.exec(s2)[0]
-      index += r.length - 2
-      flag = /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?([.\w$]+)/.test(s2) ? /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?([.\w$]+)/.exec(s2)[1] : null
+      if(r == 'require') {
+        r = includeAsync
+          ? /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?[.\w$]*\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*['"]/.exec(s2)[0]
+          : /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*['"]/.exec(s2)[0]
+        index += r.length - 2
+        flag = /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?([.\w$]+)/.test(s2)
+          ? /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?([.\w$]+)/.exec(s2)[1]
+          : null
+      }
+      else {
+        r = /^import.*?['"]/.exec(s2)[0]
+        index += r.length - 2
+        quote = r.charAt(r.length - 1)
+      }
     }
     else {
       index += /^[\w$]+(?:\s*\.\s*[\w$]+)*/.exec(s2)[0].length - 1
