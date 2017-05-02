@@ -234,7 +234,9 @@ function parseDependencies(s, replace, includeAsync) {
         : /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?\(\s*(['"]).+?\1\s*[),]/.test(s2)
     }
     else if(r == 'import') {
-        modName = 2
+      // ignore `{ import() {} }`
+      modName = /^import[^(]*?['"]/.test(s2);
+      if (modName) modName = 2;
     }
     if(modName) {
       last = index - 1
@@ -247,8 +249,8 @@ function parseDependencies(s, replace, includeAsync) {
           ? /^require\s*(?:\/\*[\s\S]*?\*\/\s*)?([.\w$]+)/.exec(s2)[1]
           : null
       }
-      else {
-        r = /^import.*?['"]/.exec(s2)[0]
+      else if (r === 'import') {
+        r = /^import[^(]*?['"]/.exec(s2)[0];
         index += r.length - 2
         quote = r.charAt(r.length - 1)
       }
